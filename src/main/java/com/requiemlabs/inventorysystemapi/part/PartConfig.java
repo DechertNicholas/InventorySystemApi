@@ -10,9 +10,9 @@ import java.util.List;
 public class PartConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(PartRepository partRepository) {
+    CommandLineRunner commandLineRunner(InHouseRepository inHouseRepository, OutsourcedRepository outsourcedRepository) {
         return args -> {
-            var part1 = new InHouse(
+            var inHouse1 = new InHouse(
                     "Test 1",
                     1F,
                     2,
@@ -20,7 +20,7 @@ public class PartConfig {
                     1,
                     1
                 );
-            var part2 = new InHouse(
+            var inHouse2 = new InHouse(
                     "Test 2",
                     2F,
                     2,
@@ -28,9 +28,28 @@ public class PartConfig {
                     1,
                     2
             );
+            inHouseRepository.saveAll(
+                    List.of(inHouse1, inHouse2)
+            );
 
-            partRepository.saveAll(
-                    List.of(part1, part2)
+            var outsourced1 = new Outsourced(
+                    "Test 1",
+                    1F,
+                    2,
+                    1,
+                    1,
+                    "Requiem Labs"
+            );
+            var outsourced2 = new Outsourced(
+                    "Test 2",
+                    2F,
+                    2,
+                    1,
+                    1,
+                    "Test Labs"
+            );
+            outsourcedRepository.saveAll(
+                    List.of(outsourced1, outsourced2)
             );
         };
     }
