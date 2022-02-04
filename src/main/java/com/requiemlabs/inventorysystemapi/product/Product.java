@@ -1,6 +1,6 @@
-package com.requiemlabs.inventorysystemapi.inventory;
+package com.requiemlabs.inventorysystemapi.product;
 
-import jdk.jshell.spi.ExecutionControl;
+import com.requiemlabs.inventorysystemapi.part.Part;
 
 import java.util.List;
 

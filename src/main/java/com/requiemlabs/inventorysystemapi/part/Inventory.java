@@ -1,4 +1,6 @@
-package com.requiemlabs.inventorysystemapi.inventory;
+package com.requiemlabs.inventorysystemapi.part;
+
+import com.requiemlabs.inventorysystemapi.product.Product;
 
 import java.util.List;
 
