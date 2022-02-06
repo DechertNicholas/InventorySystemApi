@@ -1,12 +1,10 @@
 package com.requiemlabs.inventorysystemapi.part;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import javax.persistence.*;
 
 @MappedSuperclass
-//@JsonAutoDetect(getterVisibility= JsonAutoDetect.Visibility.NONE)
 public abstract class Part implements Comparable<Part> {
+    // region Private variables
     @Id
     @SequenceGenerator(
             name = "Part_Sequence",
@@ -17,13 +15,18 @@ public abstract class Part implements Comparable<Part> {
             strategy = GenerationType.SEQUENCE,
             generator = "Part_Sequence"
     )
-    private int Id;
+    private Long Id;
     private String Name;
     private float Price;
     private int InStock;
     private int Min;
     private int Max;
+    // endregion
 
+    // region Constructors
+    /**
+     * Satisfy the no param constructor requirement. Not meant to be used.
+     */
     protected Part(){}
 
     public Part(String name, float price, int inStock, int min, int max) {
@@ -33,13 +36,19 @@ public abstract class Part implements Comparable<Part> {
         this.Min = min;
         this.Max = max;
     }
+    // endregion
 
-    public int getId() {
+    // region Getters and setters
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
-        Id = id;
+    /**
+     * This should never be called intentionally, it is to be set by the database.
+     * @param id The automatically set id of the part.
+     */
+    public void setId(Long id) {
+        if (id != null) {Id = id;}
     }
 
     public String getName() {
@@ -47,7 +56,7 @@ public abstract class Part implements Comparable<Part> {
     }
 
     public void setName(String name) {
-        Name = name;
+        if(Name != null) {Name = name;}
     }
 
     public float getPrice() {
@@ -55,7 +64,7 @@ public abstract class Part implements Comparable<Part> {
     }
 
     public void setPrice(float price) {
-        Price = price;
+        if(price > 0.0f) {Price = price;}
     }
 
     public int getInStock() {
@@ -63,7 +72,7 @@ public abstract class Part implements Comparable<Part> {
     }
 
     public void setInStock(int inStock) {
-        InStock = inStock;
+        if(inStock >= 0) {InStock = inStock;}
     }
 
     public int getMin() {
@@ -71,7 +80,7 @@ public abstract class Part implements Comparable<Part> {
     }
 
     public void setMin(int min) {
-        Min = min;
+        if(min >= 0) {Min = min;}
     }
 
     public int getMax() {
@@ -79,12 +88,14 @@ public abstract class Part implements Comparable<Part> {
     }
 
     public void setMax(int max) {
-        Max = max;
+        if(max >= 0) {Max = max;}
     }
+    // endregion
 
+    // region Overrides
     @Override
     public int compareTo(Part otherPart) {
-        return Integer.compare(this.getId(), otherPart.getId());
+        return Long.compare(this.getId(), otherPart.getId());
     }
 
     @Override
@@ -98,4 +109,5 @@ public abstract class Part implements Comparable<Part> {
                 ", Max=" + Max +
                 '}';
     }
+    // endregion
 }
