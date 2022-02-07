@@ -1,12 +1,12 @@
 package com.requiemlabs.inventorysystemapi.part;
 
+import com.requiemlabs.inventorysystemapi.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
 
 /**
  * A service specifically for Parts.
@@ -32,7 +32,7 @@ public class PartService {
      * Returns a list of all InHouse parts from the repository.
      * @return A list of InHouse parts.
      */
-    public List<InHouse> getInHouse() {
+    public List<InHouse> getAllInHouse() {
         return inHouseRepository.findAll();
     }
 
@@ -40,7 +40,7 @@ public class PartService {
      * Returns a list of all Outsourced parts from the repository.
      * @return A list of Outsourced parts.
      */
-    public List<Outsourced> getOutsourced() {
+    public List<Outsourced> getAllOutsourced() {
         return outsourcedRepository.findAll();
     }
     // endregion
@@ -49,27 +49,39 @@ public class PartService {
     /**
      * Adds a new InHouse part to the repository if a part with that name does not already exist.
      * @param part The InHouse part to add.
-     * @throws IllegalStateException If the part already exists.
+     * @throws IllegalStateException If the part already exists or Min Max InStock values are incorrect.
      */
     public void addPart(InHouse part) throws IllegalStateException {
-        Optional<InHouse> foundPart = inHouseRepository.findInHouseByName(part.getName());
-        if (foundPart.isPresent()) {
+        // Check if an InHouse with that name exists already
+        var partFound = inHouseRepository.findInHouseByName(part.getName());
+        if (partFound) {
             throw new IllegalStateException("Part already exists");
         }
-        inHouseRepository.save(part);
+        // Validate part data
+        if (Validator.validatePartData(part, Validator.PartType.INHOUSE)) {
+            inHouseRepository.save(part);
+        } else {
+            throw new IllegalStateException("Failed to validate part data. Check your part information.");
+        }
     }
 
     /**
      * Adds a new Outsourced part to the repository if a part with that name does not already exist.
      * @param part The Outsourced part to add.
-     * @throws IllegalStateException If the part already exists.
+     * @throws IllegalStateException If the part already exists or Min Max InStock values are incorrect.
      */
     public void addPart(Outsourced part) throws IllegalStateException {
-        Optional<Outsourced> foundPart = outsourcedRepository.findOutsourcedByName(part.getName());
-        if (foundPart.isPresent()) {
+        // Check if an Outsourced part with that name already exists
+        var partFound = outsourcedRepository.findOutsourcedByName(part.getName());
+        if (partFound) {
             throw new IllegalStateException("Part already exists");
         }
-        outsourcedRepository.save(part);
+        // Validate part data
+        if (Validator.validatePartData(part, Validator.PartType.OUTSOURCED)) {
+            outsourcedRepository.save(part);
+        } else {
+            throw new IllegalStateException("Failed to validate part data. Check your part information.");
+        }
     }
     // endregion
 
@@ -118,8 +130,8 @@ public class PartService {
 
         if(name != null) {
             // Only query the DB if name has a value
-            var foundName = inHouseRepository.findInHouseByName(name);
-            if(foundName.isPresent()) {
+            var partFound = inHouseRepository.findInHouseByName(name);
+            if(partFound) {
                 throw new IllegalStateException(String.format("Part with name %s already exists", name));
             }
             part.setName(name);
@@ -150,8 +162,8 @@ public class PartService {
         ));
         if(name != null) {
             // Only query the DB if name has a value
-            var foundName = outsourcedRepository.findOutsourcedByName(name);
-            if(foundName.isPresent()) {
+            var partFound = outsourcedRepository.findOutsourcedByName(name);
+            if(partFound) {
                 throw new IllegalStateException(String.format("Part with name %s already exists", name));
             }
             part.setName(name);

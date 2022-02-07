@@ -16,6 +16,6 @@ public interface OutsourcedRepository extends PartRepository<Outsourced, Long> {
      * @param name The Name to search for.
      * @return An Outsourced part with the given Name, if one exists.
      */
-    @Query("SELECT i FROM Outsourced i WHERE i.Name = ?1")
-    Optional<Outsourced> findOutsourcedByName(String name);
+    @Query("SELECT CASE WHEN COUNT (p) > 0 THEN TRUE ELSE FALSE END FROM Outsourced p WHERE p.Name =?1")
+    boolean findOutsourcedByName(String name);
 }

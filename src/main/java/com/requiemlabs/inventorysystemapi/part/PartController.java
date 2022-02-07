@@ -33,8 +33,8 @@ public class PartController {
     @GetMapping
     public List<Part> GetAllParts() {
         var returnList = new ArrayList<Part>();
-        returnList.addAll(partService.getOutsourced());
-        returnList.addAll(partService.getInHouse());
+        returnList.addAll(partService.getAllOutsourced());
+        returnList.addAll(partService.getAllInHouse());
         Collections.sort(returnList);
         return returnList;
     }
@@ -45,7 +45,7 @@ public class PartController {
      */
     @GetMapping("/InHouse")
     public List<InHouse> GetInHouseParts() {
-        return partService.getInHouse();
+        return partService.getAllInHouse();
     }
 
     /**
@@ -53,7 +53,7 @@ public class PartController {
      * @return A list of all Outsourced parts.
      */
     @GetMapping("/Outsourced")
-    public List<Outsourced> GetOutsourcedParts() { return partService.getOutsourced(); }
+    public List<Outsourced> GetOutsourcedParts() { return partService.getAllOutsourced(); }
     // endregion
 
     // region PostMappings

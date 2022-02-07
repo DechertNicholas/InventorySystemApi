@@ -16,6 +16,6 @@ public interface InHouseRepository extends PartRepository<InHouse, Long> {
      * @param name The Name to search for.
      * @return An InHouse part with the given Name, if one exists.
      */
-    @Query("SELECT i FROM InHouse i WHERE i.Name = ?1")
-    Optional<InHouse> findInHouseByName(String name);
+    @Query("SELECT CASE WHEN COUNT (p) > 0 THEN TRUE ELSE FALSE END FROM InHouse p WHERE p.Name =?1")
+    boolean findInHouseByName(String name);
 }
