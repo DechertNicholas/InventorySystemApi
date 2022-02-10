@@ -116,6 +116,9 @@ class PartServiceTest {
                 .hasMessageContaining("Part already exists");
         verify(inHouseRepository, never()).save(any());
     }
+
+    // TODO: Add more tests
+
     @Test
     void testAddPart() {
     }
