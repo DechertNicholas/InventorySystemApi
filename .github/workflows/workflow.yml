@@ -23,9 +23,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      # Debugging
+      run: mvn -B package --file pom.xml;ls -R
     - name: Rename Artifact
-      run: mv target/inventorysystemapi*.jar target/inventorysystemapi.jar
+      run: mv target/inventorysystemapi*.jar target/inventorysystemapi.jar;ls -R
     - name: Docker Login
       uses: docker/login-action@v1.12.0
       with:
