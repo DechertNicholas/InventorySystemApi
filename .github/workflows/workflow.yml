@@ -24,6 +24,8 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Rename Artifact
+      run: mv target/inventorysystemapi*.jar target/inventorysystemapi.jar
     - name: Docker Login
       uses: docker/login-action@v1.12.0
       with:
