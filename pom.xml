@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.requiemlabs</groupId>
-    <artifactId>InventorySystemAPI</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>inventorysystemapi</artifactId>
+    <version>0.0.1-snapshot</version>
     <name>InventorySystemAPI</name>
     <description>InventorySystemAPI</description>
     <properties>
