@@ -33,4 +33,4 @@ jobs:
       uses: docker/build-push-action@v2.9.0
       with:
         tags: dechertnicholas/inventorysystemapi:latest
-        push: dechertnicholas/inventorysystemapi:latest
+        push: true
