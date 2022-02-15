@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   InventorySystemApi:
-    image: inventorysystemapi:latest
+    image: dechertnicholas/inventorysystemapi:latest
     container_name: InventorySystemApi
     depends_on:
       - db
